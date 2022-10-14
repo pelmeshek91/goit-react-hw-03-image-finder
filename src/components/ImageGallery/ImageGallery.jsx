@@ -1,41 +1,51 @@
-
 import { Component } from 'react';
 import { axiosPicture } from '../../Services/picture-api';
 import { GalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { ButtonPagination } from 'components/Button/Button';
 
 export class Gallery extends Component {
   state = {
     gallery: [],
     isLoading: false,
     error: null,
-    page: 1
+    page: 1,
   };
 
-   async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     const prevQuery = prevProps.searchQuery;
     const nextQuery = this.props.searchQuery;
-                
-    if (prevQuery !== nextQuery) {
-      
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
+
+    if (prevQuery !== nextQuery || prevPage !== nextPage) {
       try {
-      
-      this.setState({ isLoading: true, error: '' });
+        this.setState({ isLoading: true, error: '' });
 
-      const pictureData = await axiosPicture(this.props.searchQuery);
+        const pictureData = await axiosPicture(
+          this.props.searchQuery,
+          this.state.page
+        );
 
-      this.setState({ gallery: [...pictureData] });
-    } catch (err) {
-      this.setState({ error: err.message });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-    
+        this.setState({ gallery: [...pictureData] });
+      } catch (err) {
+        this.setState({ error: err.message });
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
   }
+  pagination = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
   render() {
-    console.log(this.state.gallery)
-       return(<ul className="gallery">
-         {!!this.state.gallery.length && <GalleryItem gallery={this.state.gallery} />}
-     </ul>)
-     }
+    const { gallery, page } = this.state;
+    return (
+      <>
+        <ul className="gallery">
+          {!!gallery.length && <GalleryItem gallery={gallery} />}
+        </ul>
+        <ButtonPagination nextPage={page} pagination={this.pagination} />
+      </>
+    );
   }
+}
