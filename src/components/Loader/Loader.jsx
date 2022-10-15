@@ -1,16 +1,25 @@
-// import { ColorRing } from 'react-loader-spinner';
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import React from 'react';
+import ContentLoader from 'react-content-loader';
 
-// export const Loader = () => {
-//   return (
-//     <ColorRing
-//       visible={true}
-//       height="80"
-//       width="80"
-//       ariaLabel="blocks-loading"
-//       wrapperStyle={{}}
-//       wrapperClass="blocks-wrapper"
-//       colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-//     />
-//   );
-// };
+const ThreeDots = props => (
+  <ContentLoader
+    viewBox="0 0 400 160"
+    height={160}
+    width={400}
+    backgroundColor="transparent"
+    {...props}
+  >
+    <circle cx="150" cy="86" r="8" />
+    <circle cx="194" cy="86" r="8" />
+    <circle cx="238" cy="86" r="8" />
+  </ContentLoader>
+);
+
+ThreeDots.metadata = {
+  name: 'RioF',
+  github: 'clariokids',
+  description: 'Three Dots',
+  filename: 'ThreeDots',
+};
+
+export default ThreeDots;

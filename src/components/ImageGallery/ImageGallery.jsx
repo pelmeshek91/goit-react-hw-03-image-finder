@@ -3,9 +3,8 @@ import { axiosPicture } from '../../Services/picture-api';
 import { GalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ButtonPagination } from 'components/Button/Button';
 import { Modal } from '../Modal/Modal';
-// import { Loader } from '../Loader/Loader';
-
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import ThreeDots from '../Loader/Loader';
+import s from './ImageGallery.module.css';
 
 export class Gallery extends Component {
   state = {
@@ -63,12 +62,12 @@ export class Gallery extends Component {
     this.setState({ currentImage: null });
   };
   render() {
-    const { page, gallery, currentImage /* , isLoading */ } = this.state;
+    const { page, gallery, currentImage, isLoading } = this.state;
 
     return (
       <>
-        {/* {isLoading && <Loader />} */}
-        <ul className="gallery">
+        {isLoading && <ThreeDots />}
+        <ul className={s.gallery}>
           {!!gallery.length && (
             <GalleryItem
               gallery={gallery}
@@ -76,9 +75,10 @@ export class Gallery extends Component {
             />
           )}
         </ul>
-        {!!gallery.length && gallery.length >= page * 12 && (
-          <ButtonPagination pagination={this.pagination} />
-        )}
+        {!!gallery.length &&
+          gallery.length >= page * 12 /* && <ThreeDots />  */ && (
+            <ButtonPagination pagination={this.pagination} />
+          )}
         {currentImage && (
           <Modal image={currentImage} closeModal={this.closeModal} />
         )}
