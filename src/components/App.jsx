@@ -16,7 +16,7 @@ export class App extends Component {
       <div
         style={{
           height: '100vh',
-          // display: 'flex',
+          display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: 40,

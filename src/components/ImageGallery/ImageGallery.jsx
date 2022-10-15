@@ -2,6 +2,10 @@ import { Component } from 'react';
 import { axiosPicture } from '../../Services/picture-api';
 import { GalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ButtonPagination } from 'components/Button/Button';
+import { Modal } from '../Modal/Modal';
+// import { Loader } from '../Loader/Loader';
+
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 export class Gallery extends Component {
   state = {
@@ -9,6 +13,7 @@ export class Gallery extends Component {
     isLoading: false,
     error: null,
     page: 1,
+    currentImage: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -19,9 +24,9 @@ export class Gallery extends Component {
 
     if (prevQuery !== nextQuery) {
       try {
-        this.setState({ page: 1 });
+        this.setState({ isLoading: true, page: 1 });
         const pictureData = await axiosPicture(nextQuery);
-        return this.setState({ gallery: pictureData });
+        this.setState({ gallery: pictureData });
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
@@ -51,17 +56,31 @@ export class Gallery extends Component {
   pagination = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
-
+  updateCurrentImage = data => {
+    this.setState({ currentImage: data });
+  };
+  closeModal = () => {
+    this.setState({ currentImage: null });
+  };
   render() {
-    const { page, gallery } = this.state;
+    const { page, gallery, currentImage /* , isLoading */ } = this.state;
 
     return (
       <>
+        {/* {isLoading && <Loader />} */}
         <ul className="gallery">
-          {!!gallery.length && <GalleryItem gallery={gallery} />}
+          {!!gallery.length && (
+            <GalleryItem
+              gallery={gallery}
+              openModal={this.updateCurrentImage}
+            />
+          )}
         </ul>
         {!!gallery.length && gallery.length >= page * 12 && (
           <ButtonPagination pagination={this.pagination} />
+        )}
+        {currentImage && (
+          <Modal image={currentImage} closeModal={this.closeModal} />
         )}
       </>
     );
