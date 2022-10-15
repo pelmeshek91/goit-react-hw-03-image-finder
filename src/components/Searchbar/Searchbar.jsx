@@ -1,4 +1,7 @@
 import { Component } from 'react';
+import { BsSearch } from "react-icons/bs";
+
+import s from './Searchbar.module.css';
 export class Searchbar extends Component {
   state = {
     searchQuery: '',
@@ -23,13 +26,14 @@ export class Searchbar extends Component {
   render() {
     return (
       <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+        <form className={s.form} onSubmit={this.handleSubmit}>
+          <button type="submit" className={s.submit}>
+            {/* <span className="button-label">Search</span> */}
+            <BsSearch/>
           </button>
 
           <input
-            className="input"
+            className= {s.input}
             type="text"
             autoComplete="off"
             autoFocus

@@ -5,8 +5,8 @@ const ThreeDots = props => (
   <ContentLoader
     viewBox="0 0 400 160"
     height={160}
-    width={400}
-    backgroundColor="transparent"
+    width={1500}
+    backgroundColor="rgb(71, 112, 112);"
     {...props}
   >
     <circle cx="150" cy="86" r="8" />

@@ -1,0 +1,15 @@
+.btn {
+    width: 120px;
+    height: 30px;
+    background-color: rgb(71, 112, 112);
+    border-color: transparent;
+    border-radius: 5px;
+
+    color: #fff;
+    
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}

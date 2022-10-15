@@ -13,7 +13,7 @@ export const GalleryItem = ({ gallery, openModal }) => {
             }}
             rel="noreferrer"
           >
-            <img src={webformatURL} alt={tags} width="350" />
+            <img className={s.image} src={webformatURL} alt={tags} width="350"  />
           </a>
         </li>
       ))}

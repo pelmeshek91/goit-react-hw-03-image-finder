@@ -52,7 +52,8 @@ export class Gallery extends Component {
     }
   }
 
-  pagination = () => {
+  pagination = (e) => {
+    e.preventDefault();
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
   updateCurrentImage = data => {
@@ -79,6 +80,7 @@ export class Gallery extends Component {
           gallery.length >= page * 12 /* && <ThreeDots />  */ && (
             <ButtonPagination pagination={this.pagination} />
           )}
+        
         {currentImage && (
           <Modal image={currentImage} closeModal={this.closeModal} />
         )}
