@@ -1,4 +1,4 @@
-export const ButtonPagination = ({ page, pagination }) => {
+export const ButtonPagination = ({ pagination }) => {
   return (
     <>
       <button type="button" onClick={pagination}>

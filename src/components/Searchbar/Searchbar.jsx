@@ -8,15 +8,14 @@ export class Searchbar extends Component {
     this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
   };
 
-
   handleSubmit = event => {
     event.preventDefault();
-    
+
     if (this.state.searchQuery.trim() === '') {
       alert('Введите имя покемона.');
       return;
     }
-    
+
     this.props.onSubmit(this.state.searchQuery);
     this.setState({ searchQuery: '' });
   };
@@ -36,7 +35,7 @@ export class Searchbar extends Component {
             autoFocus
             placeholder="Search images and photos"
             onChange={this.handleNameChange}
-            value={this.state.searchQuery} 
+            value={this.state.searchQuery}
           />
         </form>
       </header>

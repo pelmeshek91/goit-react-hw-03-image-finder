@@ -1,8 +1,11 @@
 export const GalleryItem = ({ gallery }) => {
-    console.log(gallery)
-    return (
+  return (
     <>
-            {gallery.map(({ id, webformatURL, tags }) => <li key={id}><img src={webformatURL} alt={tags} /></li> )}
+      {gallery.map(({ id, webformatURL, tags }) => (
+        <li key={id}>
+          <img src={webformatURL} alt={tags} />
+        </li>
+      ))}
     </>
-    )
-}
+  );
+};

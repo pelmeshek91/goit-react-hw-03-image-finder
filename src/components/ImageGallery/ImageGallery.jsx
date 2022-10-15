@@ -17,7 +17,18 @@ export class Gallery extends Component {
     const prevPage = prevState.page;
     const nextPage = this.state.page;
 
-    if (prevQuery !== nextQuery || prevPage !== nextPage) {
+    if (prevQuery !== nextQuery) {
+      try {
+        this.setState({ page: 1 });
+        const pictureData = await axiosPicture(nextQuery);
+        return this.setState({ gallery: pictureData });
+      } catch (err) {
+        this.setState({ error: err.message });
+      } finally {
+        this.setState({ isLoading: false });
+      }
+    }
+    if (prevPage !== nextPage && nextPage !== 1) {
       try {
         this.setState({ isLoading: true, error: '' });
 
@@ -26,7 +37,9 @@ export class Gallery extends Component {
           this.state.page
         );
 
-        this.setState({ gallery: [...pictureData] });
+        this.setState(({ gallery }) => ({
+          gallery: [...gallery, ...pictureData],
+        }));
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
@@ -34,17 +47,22 @@ export class Gallery extends Component {
       }
     }
   }
+
   pagination = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
+
   render() {
-    const { gallery, page } = this.state;
+    const { page, gallery } = this.state;
+
     return (
       <>
         <ul className="gallery">
           {!!gallery.length && <GalleryItem gallery={gallery} />}
         </ul>
-        <ButtonPagination nextPage={page} pagination={this.pagination} />
+        {!!gallery.length && gallery.length >= page * 12 && (
+          <ButtonPagination pagination={this.pagination} />
+        )}
       </>
     );
   }
