@@ -5,32 +5,17 @@ import { Gallery } from './ImageGallery/ImageGallery';
 export class App extends Component {
   state = {
     searchQuery: '',
-    gallery: [],
-    isLoading: false,
-    error: null,
   };
 
   handleFormSubmit = searchQuery => {
     this.setState({ searchQuery });
   };
-  stateUpdate = (gallery, isLoading, error) => {
-    console.log(gallery);
-    this.setState({ gallery, isLoading, error });
-  };
+
   render() {
-    // console.log(this.state.gallery);
     return (
       <>
-        <Searchbar
-          onSubmit={this.handleFormSubmit}
-          gallery={this.state.gallery}
-          isLoading={this.state.isLoading}
-          error={this.state.error}
-        />
-        <Gallery
-          searchQuery={this.state.searchQuery}
-          onUpdate={this.stateUpdate}
-        />
+        <Searchbar onSubmit={this.handleFormSubmit} />
+        <Gallery searchQuery={this.state.searchQuery} />
       </>
     );
   }

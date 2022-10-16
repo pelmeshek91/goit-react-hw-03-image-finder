@@ -27,14 +27,17 @@ export class Gallery extends Component {
         this.setState({ isLoading: true, page: 1 });
         const pictureData = await axiosPicture(nextQuery);
         this.setState({ gallery: pictureData });
-       
       } catch (err) {
         this.setState({ error: err.message });
         console.log(this.state.error);
         console.log(err.message);
       } finally {
         this.setState({ isLoading: false });
-        this.props.onUpdate(this.state.gallery, this.state.isLoading, this.state.error);
+        this.props.onUpdate(
+          this.state.gallery,
+          this.state.isLoading,
+          this.state.error
+        );
       }
     }
     if (prevPage !== nextPage && nextPage !== 1) {
@@ -43,23 +46,25 @@ export class Gallery extends Component {
         const pictureData = await axiosPicture(
           this.props.searchQuery,
           this.state.page
-         
         );
 
         this.setState(({ gallery }) => ({
           gallery: [...gallery, ...pictureData],
         }));
-        
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
         this.setState({ isLoading: false });
-        this.props.onUpdate(this.state.gallery, this.state.isLoading, this.state.error);
+        this.props.onUpdate(
+          this.state.gallery,
+          this.state.isLoading,
+          this.state.error
+        );
       }
-    }   
+    }
   }
 
-  pagination = (e) => {
+  pagination = e => {
     e.preventDefault();
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
@@ -74,8 +79,10 @@ export class Gallery extends Component {
 
     return (
       <>
-      {/* {!isLoading && !error && gallery.length<1 && <Note/>} */}
-       {error && <span className={s.error}>Oops! Something went wrong. {error}</span>}
+        {/* {!isLoading && !error && gallery.length<1 && <Note/>} */}
+        {error && (
+          <span className={s.error}>Oops! Something went wrong. {error}</span>
+        )}
         <ul className={s.gallery}>
           {!!gallery.length && (
             <GalleryItem
@@ -85,11 +92,10 @@ export class Gallery extends Component {
           )}
         </ul>
         {isLoading && <ThreeDots />}
-        {!!gallery.length &&
-          gallery.length >= page * 12 /* && <ThreeDots />  */ && (
-            <ButtonPagination pagination={this.pagination} />
-          )}
-        
+        {!!gallery.length && gallery.length >= page * 12 && (
+          <ButtonPagination pagination={this.pagination} />
+        )}
+
         {currentImage && (
           <Modal image={currentImage} closeModal={this.closeModal} />
         )}
