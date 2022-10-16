@@ -4,6 +4,7 @@ import { GalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ButtonPagination } from 'components/Button/Button';
 import { Modal } from '../Modal/Modal';
 import ThreeDots from '../Loader/Loader';
+// import {Note} from './Notification';
 import s from './ImageGallery.module.css';
 
 export class Gallery extends Component {
@@ -26,30 +27,36 @@ export class Gallery extends Component {
         this.setState({ isLoading: true, page: 1 });
         const pictureData = await axiosPicture(nextQuery);
         this.setState({ gallery: pictureData });
+       
       } catch (err) {
         this.setState({ error: err.message });
+        console.log(this.state.error);
+        console.log(err.message);
       } finally {
         this.setState({ isLoading: false });
+        this.props.onUpdate(this.state.gallery, this.state.isLoading, this.state.error);
       }
     }
     if (prevPage !== nextPage && nextPage !== 1) {
       try {
         this.setState({ isLoading: true, error: '' });
-
         const pictureData = await axiosPicture(
           this.props.searchQuery,
           this.state.page
+         
         );
 
         this.setState(({ gallery }) => ({
           gallery: [...gallery, ...pictureData],
         }));
+        
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
         this.setState({ isLoading: false });
+        this.props.onUpdate(this.state.gallery, this.state.isLoading, this.state.error);
       }
-    }
+    }   
   }
 
   pagination = (e) => {
@@ -63,11 +70,12 @@ export class Gallery extends Component {
     this.setState({ currentImage: null });
   };
   render() {
-    const { page, gallery, currentImage, isLoading } = this.state;
+    const { page, gallery, currentImage, isLoading, error } = this.state;
 
     return (
       <>
-        {isLoading && <ThreeDots />}
+      {/* {!isLoading && !error && gallery.length<1 && <Note/>} */}
+       {error && <span className={s.error}>Oops! Something went wrong. {error}</span>}
         <ul className={s.gallery}>
           {!!gallery.length && (
             <GalleryItem
@@ -76,6 +84,7 @@ export class Gallery extends Component {
             />
           )}
         </ul>
+        {isLoading && <ThreeDots />}
         {!!gallery.length &&
           gallery.length >= page * 12 /* && <ThreeDots />  */ && (
             <ButtonPagination pagination={this.pagination} />

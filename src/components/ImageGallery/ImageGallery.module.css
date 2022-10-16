@@ -6,3 +6,12 @@
     flex-wrap: wrap;
     gap: 20px;
 }
+
+.error {
+    display: flex;
+    justify-content: center;
+    padding-top: 200px;
+    font-size: 20px;
+    font-weight: 600;
+    color: tomato;
+}
