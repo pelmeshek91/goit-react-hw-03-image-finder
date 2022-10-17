@@ -1,6 +1,15 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import s from './Modal.module.css';
 export class Modal extends Component {
+ 
+ static propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  image: PropTypes.shape({
+    src:PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
+  }).isRequired,
+ }
   closeByEscape = e => {
     if (e.code === 'Escape') {
       this.props.closeModal();
@@ -33,3 +42,4 @@ export class Modal extends Component {
     );
   }
 }
+

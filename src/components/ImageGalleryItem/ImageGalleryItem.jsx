@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import PropTypes from 'prop-types';
 import s from './ImageGalleryItem.module.css';
 
 export const GalleryItem = ({ gallery, openModal }) => {
@@ -20,3 +21,8 @@ export const GalleryItem = ({ gallery, openModal }) => {
     </>
   );
 };
+
+GalleryItem.propTypes={
+  gallery: PropTypes.array.isRequired,
+  openModal: PropTypes.func.isRequired,
+}
