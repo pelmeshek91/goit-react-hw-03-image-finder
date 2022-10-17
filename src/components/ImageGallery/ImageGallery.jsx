@@ -6,6 +6,7 @@ import { ButtonPagination } from 'components/Button/Button';
 import { Modal } from '../Modal/Modal';
 import ThreeDots from '../Loader/Loader';
 import s from './ImageGallery.module.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export class Gallery extends Component {
   state = {
@@ -28,15 +29,9 @@ export class Gallery extends Component {
 
      if (prevQuery !== nextQuery) {
       try {
-        this.setState({ isLoading: true, page: 1 });
+        this.setState({ isLoading: true, page: 1, gallery: [] });
         const pictureData = await axiosPicture(nextQuery);
-        this.setState({ gallery: pictureData });
-        this.props.onUpdate(
-          pictureData,
-          this.state.isLoading,
-          this.state.error
-        );
-      
+        this.setState({ gallery: pictureData });  
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
@@ -47,23 +42,21 @@ export class Gallery extends Component {
       try {
         this.setState({ isLoading: true, error: '' });
         const pictureData = await axiosPicture(
-          this.props.searchQuery,
-          this.state.page
+          nextQuery,
+          nextPage
         );
-     
-        this.setState(({ gallery }) => ({
+          this.setState(({ gallery }) => ({
           gallery: [...gallery, ...pictureData],
         }));
-        this.props.onUpdate(
-          pictureData,
-          this.state.isLoading,
-          this.state.error
-        );
       } catch (err) {
         this.setState({ error: err.message });
       } finally {
         this.setState({ isLoading: false });
       }
+    }
+
+    if (!this.state.isLoading && this.state.gallery.length === 0) {
+      this.notify();
     }
   }
    pagination = e => {
@@ -76,6 +69,11 @@ export class Gallery extends Component {
   closeModal = () => {
     this.setState({ currentImage: null });
   };
+
+  notify = () => {
+          toast.warn('Did not find anything! Please change the request.');
+  }
+
   render() {
     const { page, gallery, currentImage, isLoading, error } = this.state;
 
@@ -84,6 +82,7 @@ export class Gallery extends Component {
         {error && (
           <span className={s.error}>Oops! Something went wrong. {error}</span>
         )}
+        {!isLoading && !error && gallery.length === 0 && <ToastContainer /> }
         <ul className={s.gallery}>
           {!!gallery.length && (
             <GalleryItem

@@ -13,22 +13,17 @@ export class App extends Component {
   handleFormSubmit = searchQuery => {
     this.setState({ searchQuery });
   };
-  stateUpdate = (gallery, isLoading, error) => {
-    this.setState({ gallery, isLoading, error });
-  };
+
   render() {
+    const { searchQuery} = this.state
    
     return (
       <>
         <Searchbar
           onSubmit={this.handleFormSubmit}
-          gallery={this.state.gallery}
-          isLoading={this.state.isLoading}
-          error={this.state.error}
         />
         <Gallery
-          searchQuery={this.state.searchQuery}
-          onUpdate={this.stateUpdate}
+          searchQuery={searchQuery}
         />
       </>
     );
