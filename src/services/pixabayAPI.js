@@ -13,7 +13,8 @@ export const fetchImage = async (query, page = 1) => {
     per_page: 12,
   });
 
-  const images = await axios.get(params);
+  const images = await axios.get(params.toString());
+  console.log(images.data);
 
   return images.data.hits;
 };
