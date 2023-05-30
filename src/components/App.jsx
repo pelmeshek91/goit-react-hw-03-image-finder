@@ -1,25 +1,22 @@
 import { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
-import { fetchImage } from 'services/pixabayAPI';
+import ImageGallery from './ImageGallery/ImageGallery';
 
 export class App extends Component {
   state = {
-    searchImage: null,
+    searchImage: '',
   };
 
-  handleFormSubmit = async searchImage => {
+  handleFormSubmit = searchImage => {
     this.setState({ searchImage });
-    try {
-      await fetchImage(searchImage);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   render() {
+    const { searchImage } = this.state;
     return (
-      <div>
+      <div className="App">
         <Searchbar onSubmit={this.handleFormSubmit} />
+        <ImageGallery searchImage={searchImage} />
       </div>
     );
   }

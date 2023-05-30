@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
 
-const Button = props => {
-  return <div>Button</div>;
+const Button = ({ changePage }) => {
+  return (
+    <div>
+      <button onClick={changePage}> LOAD MORE</button>
+    </div>
+  );
 };
 
-Button.propTypes = {};
+Button.propTypes = {
+  changePage: PropTypes.func.isRequired,
+};
 
 export default Button;
