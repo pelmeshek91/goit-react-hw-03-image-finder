@@ -4,7 +4,7 @@ const Modal = () => {
   return (
     <div class="overlay">
       <div class="modal">
-        <img src="" alt="" />
+        <img src="#" alt="#" />
       </div>
     </div>
   );
