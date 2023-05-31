@@ -17,7 +17,6 @@ export default class ImageGallery extends Component {
     totalHits: 0,
     isLoading: false,
     modalImage: null,
-    totalPage: 0,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.searchImage !== state.searchCopy) {
@@ -53,7 +52,6 @@ export default class ImageGallery extends Component {
       this.setState(prev => ({
         gallery: this.state.page === 1 ? hits : [...prev.gallery, ...hits],
         totalHits,
-        totalPage: Math.ceil(totalHits / 12),
       }));
     } catch (error) {
       this.setState({ error: error.message });
