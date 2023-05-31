@@ -67,7 +67,7 @@ export default class ImageGallery extends Component {
     toast.warn('Did not find anything! Please change the request.');
   };
 
-  handleOpenModal = data => {
+ openModal = data => {
     this.setState({ modalImage: data });
   };
 
@@ -88,7 +88,7 @@ export default class ImageGallery extends Component {
             {gallery && (
               <ImageGalleryItem
                 gallery={gallery}
-                openModal={this.handleOpenModal}
+                openModal={this.openModal}
               />
             )}
           </ul>
