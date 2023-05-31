@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 
 const Button = ({ changePage }) => {
   return (
-    <div>
-      <button onClick={changePage}> LOAD MORE</button>
+    <div className="Btn">
+      <button onClick={changePage} className="Button">
+        LOAD MORE
+      </button>
     </div>
   );
 };
